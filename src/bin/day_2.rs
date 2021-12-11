@@ -5,6 +5,12 @@ use std::io::BufReader;
 use std::io::Result;
 
 fn main() -> Result<()> {
+    part_one();
+    part_two();
+    Ok(())
+}
+
+fn part_one() {
     let instructions: Vec<String> = load_from_file("./day_2_input.txt");
 
     let mut horz_pos = 0;
@@ -24,14 +30,45 @@ fn main() -> Result<()> {
     }
 
     println!(
-        "Horizontal position: {}, Depth: {}, Results {}",
+        "Part 1 :: Horizontal position: {}, Depth: {}, Results {}",
         horz_pos,
         depth,
         horz_pos * depth
     );
-
-    Ok(())
 }
+
+fn part_two() {
+    let instructions: Vec<String> = load_from_file("./day_2_input.txt");
+
+    let mut horz_pos = 0;
+    let mut aim = 0;
+    let mut depth = 0;
+
+    for instruction in instructions {
+        println!("{}", instruction);
+        let instruction: Vec<&str> = instruction.split(" ").collect();
+        let command = instruction[0];
+        let value = instruction[1].parse::<i32>().unwrap();
+        match command {
+            "forward" => {
+                horz_pos = horz_pos + value;
+                depth = depth + aim * value;
+            },
+            "up" => aim = aim - value,
+            "down" => aim = aim + value,
+            _ => println!("FALSE"),
+        }
+    }
+
+    println!(
+        "Part 2 :: Horizontal position: {}, Depth: {}, Results {}",
+        horz_pos,
+        depth,
+        horz_pos * depth
+    );
+}
+
+
 
 fn load_from_file(file_path: &str) -> Vec<String> {
     let file = File::open(file_path).expect("file wasn't found.");
