@@ -7,12 +7,12 @@ use std::io::Result;
 fn main() -> Result<()> {
     // Read input
     let depths: Vec<i16> = load_from_file("./input.txt");
-    
+
     let mut depths_shifted: Vec<i16> = depths.clone();
     // Shift vector by one and maintain correct values
     depths_shifted.insert(0, depths[0]);
     depths_shifted.pop();
-    
+
     // Compute element-wise difference between shifted vectors and keep positive values.
     let depth_changes: Vec<i16> = depths
         .iter()
