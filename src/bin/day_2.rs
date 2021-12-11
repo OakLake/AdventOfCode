@@ -53,7 +53,7 @@ fn part_two() {
             "forward" => {
                 horz_pos = horz_pos + value;
                 depth = depth + aim * value;
-            },
+            }
             "up" => aim = aim - value,
             "down" => aim = aim + value,
             _ => println!("FALSE"),
@@ -67,8 +67,6 @@ fn part_two() {
         horz_pos * depth
     );
 }
-
-
 
 fn load_from_file(file_path: &str) -> Vec<String> {
     let file = File::open(file_path).expect("file wasn't found.");

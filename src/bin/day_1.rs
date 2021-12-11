@@ -6,24 +6,47 @@ use std::io::Result;
 
 fn main() -> Result<()> {
     // Read input
-    let depths: Vec<i16> = load_from_file("./input.txt");
+    let depths: Vec<i16> = load_from_file("./day_1_input.txt");
 
-    let mut depths_shifted: Vec<i16> = depths.clone();
-    // Shift vector by one and maintain correct values
-    depths_shifted.insert(0, depths[0]);
-    depths_shifted.pop();
-
-    // Compute element-wise difference between shifted vectors and keep positive values.
-    let depth_changes: Vec<i16> = depths
-        .iter()
-        .zip(depths_shifted.iter())
-        .map(|(&b, &v)| b - v)
-        .filter(|v| v > &0)
-        .collect();
-
-    println!("Number of depth increases: {}", depth_changes.len());
+    part_one(depths.clone());
+    part_two(depths.clone());
 
     Ok(())
+}
+
+fn part_one(depths: Vec<i16>) {
+
+    let number_depth_increases: usize = depths
+        .windows(2)
+        .into_iter()
+        .map(|s| &s[1] - &s[0])
+        .filter(|f| f > &0)
+        .collect::<Vec<i16>>()
+        .len();
+
+    println!(
+        "Part 1 :: Number of depth increases: {}",
+        number_depth_increases
+    );
+}
+
+fn part_two(depths: Vec<i16>) {
+    let number_depth_increases: usize = depths
+        .windows(3)
+        .into_iter()
+        .map(|s| s.iter().sum())
+        .collect::<Vec<i16>>()
+        .windows(2)
+        .into_iter()
+        .map(|s| &s[1] - &s[0])
+        .filter(|f| f > &0)
+        .collect::<Vec<i16>>()
+        .len();
+
+    println!(
+        "Part 2 :: Number of depth increases: {}",
+        number_depth_increases
+    );
 }
 
 fn load_from_file(file_path: &str) -> Vec<i16> {
