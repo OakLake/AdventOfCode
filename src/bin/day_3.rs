@@ -4,7 +4,7 @@ use std::io::BufReader;
 use std::io::Result;
 
 fn main() -> Result<()> {
-    let binaries = load_from_file("./input/day_3_input.txt");
+    let binaries = load_from_file("./input/day_31_input.txt");
 
     match binaries {
         Ok(b) => {
@@ -41,7 +41,7 @@ fn main() -> Result<()> {
             println!("Results: {}", gamma_rate * epsilon_rate);
         }
         Err(e) => {
-            println!("Failed To Read File!: {}", e);
+            println!("{}", e);
         }
     }
 
@@ -49,10 +49,16 @@ fn main() -> Result<()> {
 }
 
 fn load_from_file(file_path: &str) -> Result<Vec<String>> {
-    let file = File::open(file_path).expect("file wasn't found.");
-    let reader = BufReader::new(file);
-
-    let binaries: Vec<String> = reader.lines().map(|s| s.unwrap().to_string()).collect();
-
-    Ok(binaries)
+    let file = File::open(file_path);
+    match file {
+        Ok(f) => {
+            let reader = BufReader::new(f);
+            let binaries: Vec<String> = reader.lines().map(|s| s.unwrap().to_string()).collect();
+            return Ok(binaries);
+        }
+        Err(e) => {
+            println!("Could not open file: {}", file_path);
+            return Err(e);
+        }
+    }
 }

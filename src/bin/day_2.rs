@@ -13,7 +13,6 @@ fn main() -> Result<()> {
 }
 
 fn part_one(instructions: Vec<String>) {
-
     let mut horz_pos = 0;
     let mut depth = 0;
 
@@ -39,7 +38,6 @@ fn part_one(instructions: Vec<String>) {
 }
 
 fn part_two(instructions: Vec<String>) {
-
     let mut horz_pos = 0;
     let mut aim = 0;
     let mut depth = 0;
