@@ -6,7 +6,7 @@ use std::io::Result;
 
 fn main() -> Result<()> {
     // Read input
-    let depths: Vec<i16> = load_from_file("./day_1_input.txt");
+    let depths: Vec<i16> = load_from_file("./input/day_1_input.txt");
 
     part_one(depths.clone());
     part_two(depths.clone());
@@ -15,7 +15,6 @@ fn main() -> Result<()> {
 }
 
 fn part_one(depths: Vec<i16>) {
-
     let number_depth_increases: usize = depths
         .windows(2)
         .into_iter()

@@ -5,13 +5,14 @@ use std::io::BufReader;
 use std::io::Result;
 
 fn main() -> Result<()> {
-    part_one();
-    part_two();
+    let instructions: Vec<String> = load_from_file("./input/day_2_input.txt");
+
+    part_one(instructions.clone());
+    part_two(instructions.clone());
     Ok(())
 }
 
-fn part_one() {
-    let instructions: Vec<String> = load_from_file("./day_2_input.txt");
+fn part_one(instructions: Vec<String>) {
 
     let mut horz_pos = 0;
     let mut depth = 0;
@@ -37,8 +38,7 @@ fn part_one() {
     );
 }
 
-fn part_two() {
-    let instructions: Vec<String> = load_from_file("./day_2_input.txt");
+fn part_two(instructions: Vec<String>) {
 
     let mut horz_pos = 0;
     let mut aim = 0;
