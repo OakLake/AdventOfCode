@@ -81,8 +81,6 @@ fn find_bit_count(values: Vec<String>) -> Vec<(i16, i16)> {
         .collect::<Vec<(i16, i16)>>()
 }
 
-
-
 fn get_rating(binaries: Vec<String>, preferred_bits: [i16; 3]) -> i16 {
     let mut rating = binaries.clone();
 
