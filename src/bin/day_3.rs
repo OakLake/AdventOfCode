@@ -9,7 +9,7 @@ fn main() -> Result<()> {
     match binaries {
         Ok(b) => {
             part_one(b.clone());
-            part_two(b.clone());
+            part_two(b);
         }
         Err(e) => {
             println!("{}", e);
@@ -25,10 +25,10 @@ fn part_one(binaries: Vec<String>) {
     let mut ones_counter: [i16; 12] = [0; 12];
     for telemetry in binaries {
         for (ix, digit) in telemetry.chars().enumerate() {
-            ones_counter[ix] = ones_counter[ix] + digit.to_digit(10).unwrap() as i16;
+            ones_counter[ix] += digit.to_digit(10).unwrap() as i16;
         }
     }
-    let zeros_counter: [i16; 12] = ones_counter.clone().map(|u| length - u);
+    let zeros_counter: [i16; 12] = ones_counter.map(|u| length - u);
 
     let gamma_rate_str: String = ones_counter
         .iter()
@@ -56,7 +56,7 @@ fn part_one(binaries: Vec<String>) {
 
 fn part_two(binaries: Vec<String>) {
     let o2_rating = get_rating(binaries.clone(), [0, 1, 1]);
-    let co2_rating = get_rating(binaries.clone(), [1, 0, 0]);
+    let co2_rating = get_rating(binaries, [1, 0, 0]);
     let result: i32 = o2_rating as i32 * co2_rating as i32;
     println!(
         "O2: {}, CO2: {}, Results: {}",
@@ -69,11 +69,11 @@ fn find_bit_count(values: Vec<String>) -> Vec<(i16, i16)> {
     let length = values.len() as i16;
     for telemetry in values.clone() {
         for (ix, digit) in telemetry.chars().enumerate() {
-            ones_counter[ix] = ones_counter[ix] + digit.to_digit(10).unwrap() as i16;
+            ones_counter[ix] += digit.to_digit(10).unwrap() as i16;
         }
     }
 
-    let zeros_counter: [i16; 12] = ones_counter.clone().map(|u| length - u);
+    let zeros_counter: [i16; 12] = ones_counter.map(|u| length - u);
     zeros_counter
         .into_iter()
         .zip(ones_counter.into_iter())
@@ -82,7 +82,7 @@ fn find_bit_count(values: Vec<String>) -> Vec<(i16, i16)> {
 }
 
 fn get_rating(binaries: Vec<String>, preferred_bits: [i16; 3]) -> i16 {
-    let mut rating = binaries.clone();
+    let mut rating = binaries;
 
     for i in 0..12 {
         let bit_counts = find_bit_count(rating.clone());
@@ -115,12 +115,12 @@ fn load_from_file(file_path: &str) -> Result<Vec<String>> {
     match file {
         Ok(f) => {
             let reader = BufReader::new(f);
-            let binaries: Vec<String> = reader.lines().map(|s| s.unwrap().to_string()).collect();
-            return Ok(binaries);
+            let binaries: Vec<String> = reader.lines().map(|s| s.unwrap()).collect();
+            Ok(binaries)
         }
         Err(e) => {
             println!("Could not open file: {}", file_path);
-            return Err(e);
+            Err(e)
         }
     }
 }

@@ -7,7 +7,7 @@ fn main() -> Result<()> {
     match lines_result {
         Ok(mut lines) => {
             let bingo_numbers_line = lines.remove(0);
-            let bingo_numbers = bingo_numbers_line.split(",");
+            let bingo_numbers = bingo_numbers_line.split(',');
             println!("bingo numbers: {:?}", bingo_numbers);
             // for line in lines {
             // }

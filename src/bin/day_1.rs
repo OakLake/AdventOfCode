@@ -9,7 +9,7 @@ fn main() -> Result<()> {
     let depths: Vec<i16> = load_from_file("./input/day_1_input.txt");
 
     part_one(depths.clone());
-    part_two(depths.clone());
+    part_two(depths);
 
     Ok(())
 }

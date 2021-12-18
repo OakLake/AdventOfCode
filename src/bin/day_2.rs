@@ -8,7 +8,7 @@ fn main() -> Result<()> {
     let instructions: Vec<String> = load_from_file("./input/day_2_input.txt");
 
     part_one(instructions.clone());
-    part_two(instructions.clone());
+    part_two(instructions);
     Ok(())
 }
 
@@ -18,13 +18,13 @@ fn part_one(instructions: Vec<String>) {
 
     for instruction in instructions {
         println!("{}", instruction);
-        let instruction: Vec<&str> = instruction.split(" ").collect();
+        let instruction: Vec<&str> = instruction.split(' ').collect();
         let command = instruction[0];
         let value = instruction[1].parse::<i32>().unwrap();
         match command {
-            "forward" => horz_pos = horz_pos + value,
-            "up" => depth = depth - value,
-            "down" => depth = depth + value,
+            "forward" => horz_pos += value,
+            "up" => depth -= value,
+            "down" => depth += value,
             _ => println!("FALSE"),
         }
     }
@@ -44,16 +44,16 @@ fn part_two(instructions: Vec<String>) {
 
     for instruction in instructions {
         println!("{}", instruction);
-        let instruction: Vec<&str> = instruction.split(" ").collect();
+        let instruction: Vec<&str> = instruction.split(' ').collect();
         let command = instruction[0];
         let value = instruction[1].parse::<i32>().unwrap();
         match command {
             "forward" => {
-                horz_pos = horz_pos + value;
-                depth = depth + aim * value;
+                horz_pos += value;
+                depth += aim * value;
             }
-            "up" => aim = aim - value,
-            "down" => aim = aim + value,
+            "up" => aim -= value,
+            "down" => aim += value,
             _ => println!("FALSE"),
         }
     }
@@ -70,7 +70,7 @@ fn load_from_file(file_path: &str) -> Vec<String> {
     let file = File::open(file_path).expect("file wasn't found.");
     let reader = BufReader::new(file);
 
-    let instructions: Vec<String> = reader.lines().map(|s| s.unwrap().to_string()).collect();
+    let instructions: Vec<String> = reader.lines().map(|s| s.unwrap()).collect();
 
     instructions
 }
