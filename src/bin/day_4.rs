@@ -6,7 +6,7 @@ fn main() -> Result<()> {
     let lines_result = helpers::load_from_file("./input/day_4_input.txt");
     match lines_result {
         Ok(lines) => {
-            part_one(lines);
+            part_one_and_two(lines);
         }
         Err(e) => {
             println!("{}", e);
@@ -16,10 +16,10 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn part_one(lines: Vec<String>) {
+fn part_one_and_two(lines: Vec<String>) {
     let mut mut_lines = lines.clone();
     let bingo_numbers_line = mut_lines.remove(0);
-    let bingo_numbers: Vec<i16> = bingo_numbers_line
+    let bingo_numbers: Vec<i32> = bingo_numbers_line
         .split(',')
         .map(|s| s.parse().unwrap())
         .collect();
@@ -27,33 +27,35 @@ fn part_one(lines: Vec<String>) {
 
     let mut boards = create_boards(mut_lines);
 
-    let mut winner: i16 = -1;
+    let mut winners: Vec<[i32; 2]> = vec![];
     for bingo in bingo_numbers {
-        if winner != -1 {
-            break;
-        }
         for board_ix in 0..boards.len() {
             for cluster_ix in 0..boards[board_ix].len() {
                 boards[board_ix][cluster_ix].retain(|i| *i != bingo);
 
                 if boards[board_ix][cluster_ix].len() == 0 {
-                    println!("Winner is board #{}", board_ix);
-                    winner = board_ix as i16;
-                    let sum: i16 = boards[board_ix][0..5]
+                    let winner = board_ix as i32;
+                    let sum: i32 = boards[board_ix][0..5]
                         .iter()
-                        .map(|b| b.iter().sum::<i16>())
+                        .map(|b| b.iter().sum::<i32>())
                         .into_iter()
                         .sum();
-                    println!("Results = {}", sum * bingo);
+                    let winner_and_results: [i32; 2] = [winner, sum * bingo];
+                    if !winners.clone().into_iter().any(|[w, _s]| w == winner) {
+                        winners.push(winner_and_results);
+                    }
                 }
             }
         }
     }
+    for [board_ix, result] in winners.clone() {
+        println!("Winner board #{}, result: {}", board_ix, result)
+    }
 }
 
-fn create_boards(lines: Vec<String>) -> Vec<Vec<Vec<i16>>> {
-    let mut boards: Vec<Vec<Vec<i16>>> = Vec::new();
-    let mut board: Vec<Vec<i16>> = vec![vec![0; 5]; 10];
+fn create_boards(lines: Vec<String>) -> Vec<Vec<Vec<i32>>> {
+    let mut boards: Vec<Vec<Vec<i32>>> = Vec::new();
+    let mut board: Vec<Vec<i32>> = vec![vec![0; 5]; 10];
     let mut arr_ix: usize = 0;
     let mut mut_lines = lines.clone();
     // Create the boards data structure
@@ -62,7 +64,7 @@ fn create_boards(lines: Vec<String>) -> Vec<Vec<Vec<i16>>> {
     for line in mut_lines {
         println!("{}", line);
         if line != "" {
-            let v: Vec<i16> = line
+            let v: Vec<i32> = line
                 .split_whitespace()
                 .map(|s| s.parse().unwrap())
                 .collect();
