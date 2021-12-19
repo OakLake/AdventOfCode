@@ -30,7 +30,9 @@ fn part_one(lines: Vec<String>) {
 
     let mut winner: i16 = -1;
     for bingo in bingo_numbers {
-        if winner != -1 { break; }
+        if winner != -1 {
+            break;
+        }
         for board_ix in 0..boards.len() {
             for cluster_ix in 0..boards[board_ix].len() {
                 boards[board_ix][cluster_ix].retain(|i| *i != bingo);
@@ -38,16 +40,16 @@ fn part_one(lines: Vec<String>) {
                 if boards[board_ix][cluster_ix].len() == 0 {
                     println!("Winner is board #{}", board_ix);
                     winner = board_ix as i16;
-                    let mut sum = 0;
-                    for i in 0..5 { // first five boards count, the other are derivatives
-                        sum += boards[board_ix][i].iter().sum::<i16>();
-                    }
+                    let sum: i16 = boards[board_ix][0..5]
+                        .iter()
+                        .map(|b| b.iter().sum::<i16>())
+                        .into_iter()
+                        .sum();
                     println!("Results = {}", sum * bingo);
                 }
             }
         }
     }
-
 }
 
 fn create_boards(lines: Vec<String>) -> Vec<Vec<Vec<i16>>> {
