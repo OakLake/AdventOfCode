@@ -55,7 +55,7 @@ fn part_one_and_two(lines: Vec<String>) {
             }
         }
     }
-    
+
     for ix in 0..1000 {
         for iy in 0..1000 {
             if xy_coords[ix as usize][iy as usize] > 1 {
