@@ -26,9 +26,7 @@ fn part_one_and_two(lines: Vec<String>) {
     // Simulate
     let num_days: i16 = 256;
     // let num_fish  = sim1(num_days, state);  // 383160
-    let num_fish  = sim2(num_days, state);  // 1721148811504
-
-    
+    let num_fish = sim2(num_days, state); // 1721148811504
 
     println!("Number of fish after {} days: {}", num_days, num_fish);
 }
@@ -41,7 +39,7 @@ fn step_fish(days: i8) -> i8 {
     }
 }
 
-fn sim1(num_days: i16, state:Vec<i8>) -> usize{
+fn sim1(num_days: i16, state: Vec<i8>) -> usize {
     let mut new_fish_count = 0;
     let mut state_ = state.clone();
     for day in 0..num_days {
@@ -54,7 +52,7 @@ fn sim1(num_days: i16, state:Vec<i8>) -> usize{
     state_.len()
 }
 
-fn sim2(num_days: i16, state:Vec<i8>) -> u64{
+fn sim2(num_days: i16, state: Vec<i8>) -> u64 {
     let mut state_: [u64; 9] = [0; 9];
     for i in 0..9 {
         state_[i] = state.iter().filter(|v| **v == i as i8).count() as u64;
@@ -67,7 +65,6 @@ fn sim2(num_days: i16, state:Vec<i8>) -> u64{
 
         state_.rotate_left(1);
         state_[6] += zeroth;
-
     }
 
     state_.iter().map(|v| *v).sum::<u64>()
