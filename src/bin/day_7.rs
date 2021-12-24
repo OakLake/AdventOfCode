@@ -9,8 +9,8 @@ fn main() -> Result<()> {
     match lines_result {
         Ok(lines) => {
             let positions: Vec<f32> = lines[0].split(",").map(|s| s.parse().unwrap()).collect();
-            part_one(positions.clone());
-            part_two(positions);
+            part_one(positions.clone().iter().map(|f| *f as i32).collect());
+            part_two(positions.clone());
         }
         Err(e) => {
             println!("{}", e);
